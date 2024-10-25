@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Service Results</title>
+</head>
+<body>
+    {{define "content"}}
+    <div class="container">
+        <h1>Services from Oracle Database</h1>
+        {{range .}}
+        <div class="service-box">
+            <h2>Service ID: {{.ID}}</h2>
+            <p><strong>Service Name:</strong> {{.Name}}</p>
+            <p><strong>Start Date:</strong> {{.StartDate}}</p>
+            <p><strong>End Date:</strong> {{.EndDate}}</p>
+            <p><strong>Type:</strong> {{.Type}}</p>
+        </div>
+        {{end}}
+    </div>
+    {{end}}
+</body>
+</html>

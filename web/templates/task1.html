@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Task 1</title>
+</head>
+<body>
+    {{define "content"}}
+    <div class="container">
+        <h1>Task 1 Input</h1>
+        <form id="task1-form" action="/task1/results" method="get">
+            <label for="input1">Input 1:</label>
+            <input type="text" id="input1" name="input1" required>
+            <label for="input2">Input 2:</label>
+            <input type="text" id="input2" name="input2" required>
+            <button type="submit">Submit</button>
+        </form>
+
+        {{if .Data}}
+        <h2>Results</h2>
+        {{range .Data}}
+        <div class="result-box">
+            <p><strong>Col1:</strong> <span id="col1-{{.Col1}}">{{.Col1}}</span></p>
+            <p><strong>Col2:</strong> {{.Col2}}</p>
+            <p><strong>Col3:</strong> {{.Col3}}</p>
+            <p><strong>Col4:</strong> {{.Col4}}</p>
+            <p><strong>Col5:</strong> {{.Col5}}</p>
+            <button class="confirm-btn" data-id="{{.Col1}}">Confirm</button>
+            <button class="edit-btn" data-id="{{.Col1}}">Edit Col1</button>
+        </div>
+        {{end}}
+        {{end}}
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const confirmButtons = document.querySelectorAll('.confirm-btn');
+        const editButtons = document.querySelectorAll('.edit-btn');
+
+        confirmButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                sendEvent('confirm', id);
+            });
+        });
+
+        editButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                const newValue = prompt('Enter new value for Col1:');
+                if (newValue) {
+                    document.getElementById(`col1-${id}`).textContent = newValue;
+                    sendEvent('edit', id, newValue);
+                }
+            });
+        });
+
+        function sendEvent(action, id, newValue = null) {
+            fetch('/task1/event', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action, id, newValue }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Event sent:', data);
+                alert(`${action.charAt(0).toUpperCase() + action.slice(1)} action processed`);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error processing action');
+            });
+        }
+    });
+    </script>
+    {{end}}
+</body>
+</html>

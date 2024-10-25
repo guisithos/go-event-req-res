@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Task 2</title>
+</head>
+<body>
+    {{define "content"}}
+    <div class="container">
+        <h1>Task 2 Input</h1>
+        <form id="task2-form" action="/task2/results" method="get">
+            <label for="input1">Input 1:</label>
+            <input type="text" id="input1" name="input1" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    {{end}}
+</body>
+</html>
